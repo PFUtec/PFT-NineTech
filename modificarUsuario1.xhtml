@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<ui:composition template="/layout/layout.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+	 
+	<style type="text/css">
+	    .value {
+	        font-weight: bold;
+	    }
+	     
+	    .ui-datatable {
+	        margin-bottom: 25px
+	    }
+	     
+	    .ui-datatable .ui-datatable-footer {
+	        text-align:left;
+	    }
+	     
+	    .ui-datalist ul {
+	        padding: 0 0 0 10px;
+	        margin: 5px 0;
+	    }
+	     
+	    .ui-datatable .ui-button-icon-only .ui-button-text {
+	        padding: 0;
+	        line-height: 1.2;
+	    }
+	</style>
+ 
+ 
+	<ui:define name="title">
+		<c:set var="title" value="Modificar usuario" scope="request" />		
+	</ui:define>
+
+	<ui:define name="content">
+	 	 
+		<br/>
+		<h:messages id="messages" showDetail="true" globalOnly="true" closable="true" style="color: blue" />
+		<br/>
+	
+		<h:form id="idModUsuario">		
+			<p:outputLabel value="Nombre&#160;" style="font-weight:bold"/>				
+			<p:inputText id="nombre" value="#{usuarioMB.usuarioDTO.criterioNombre}"/>
+			<p:message for="nombre" style="color:red"/>			
+			<p:outputLabel value="Ingrese el nombre de la persona que desea modificar" style="font-size: 10px"/>
+			<br /><p:outputLabel value="Puede ingresar parte del nombre u omitir el campo para listar todos los usuarios." style="font-size: 10px"/>
+			<br /><br />
+			<p:commandButton value="Buscar" action="#{usuarioMB.actualizarListaUsuarios()}" update=":frmPpal"/>
+		</h:form>
+		 
+	  	<p:separator style="width:auto; height:3px; background-color:blue; border-color:blue"/>
+		<br></br>
+		 
+		 
+		<h:form id="frmPpal">
+		    <p:growl id="msgFrmPpal" showDetail="true" skipDetailIfEqualsSummary="true" globalOnly="true" closable="true" 
+		    			style="color: blue" />
+		 
+		    <p:dataTable id="tabla" var="fila" value="#{usuarioMB.listaUsuarios}" emptyMessage="Sin registros">
+		        <f:facet name="header">
+		            USUARIOS ENCONTRADOS
+		        </f:facet>
+		        <p:column headerText="Nombre">
+		            <h:outputText value="#{fila.nombre}" />
+		        </p:column>
+		        <p:column headerText="Apellido">
+		            <h:outputText value="#{fila.apellido}" />
+		        </p:column>
+		        <p:column headerText="e-mail">
+		            <h:outputText value="#{fila.email}" />
+		        </p:column>
+		        <p:column headerText="Usuario">
+		            <h:outputText value="#{fila.nombreUsuario}" />
+		        </p:column>
+		        <p:column headerText="Contraseña">
+		            <h:outputText value="#{fila.contrasena}" />
+		        </p:column>
+		        
+		        <p:column style="width:32px; text-align: center">
+		             <p:commandButton 	oncomplete="PF('usuarioDialog').show()" 
+		             					icon="pi pi-edit" 
+		             				  	actionListener="#{usuarioMB.leerFila(fila)}" 
+		             				  	title="Editar" update="frmDialogo"
+		             />
+		             	                
+		   		</p:column>
+		     </p:dataTable>		     
+	    </h:form>
+	    
+		   
+		 
+		<h:form id="frmDialogo">
+			
+			<p:dialog id="dialogo" header="Modificando datos del usuario" widgetVar="usuarioDialog" modal="false"  
+		     			closeOnEscape="true" showEffect="fade" hideEffect="fade" resizable="false">
+		    
+		    	<p:growl id="msgDialogo" showDetail="true" globalOnly="true" />
+		        	
+		    	<h:panelGrid id="panel" columns="3" >
+	            	
+	                <p:outputLabel value="Nombre:" />
+	                <p:inputText id="nom" value="#{usuarioMB.usuarioDTO.nombre}" required="true" requiredMessage="Requerido" validatorMessage="Máximo 30 caracteres"/>
+	                <p:message for="nom" style="color:red" />     
+	                
+	                <p:outputLabel value="Apellido:" />
+	                <p:inputText id="ape" value="#{usuarioMB.usuarioDTO.apellido}" required="true" requiredMessage="Requerido" validatorMessage="Máximo 30 caracteres"/>
+	                <p:message for="ape" style="color:red"/>
+	                
+	                <p:outputLabel value="e-mail:" />
+	                <p:inputText id="email" value="#{usuarioMB.usuarioDTO.email}" required="false" validatorMessage="Escriba entre 6 y 60 caracteres para el e-mail"/>
+	                <p:message for="email" style="color:red"/>
+	                
+	                <p:outputLabel value="Usuario:" />
+	                <p:inputText id="usu" value="#{usuarioMB.usuarioDTO.nombreUsuario}" required="true" requiredMessage="Requerido" validatorMessage="Máximo 30 caracteres"/>
+	                <p:message for="usu" style="color:red"/>
+	                
+	                <p:outputLabel value="Contraseña:" />
+	                <p:inputText id="con" value="#{usuarioMB.usuarioDTO.contrasena}" required="true" requiredMessage="Requerido" validatorMessage="Máximo 30 caracteres"/>
+	                <p:message for="con" style="color:red"/>
+	    
+	                <!-- <p:commandButton value="Aceptar" icon="ui-icon-check" update=":frmPpal:tabla"
+	                					actionListener="#{usuarioMB.modificarUsuario()}" oncomplete="PF('usuarioDialog').hide();"/>
+	                					 -->
+	                <!-- 
+	                <p:commandButton 	value="Aceptar" 
+	                					icon="ui-icon-check" 
+	                					update="panel" 
+	                					action="#{usuarioMB.modificarUsuario()}"
+	                					onclick="#{usuarioMB.btnAceptar()}"/>		                					 
+	                 -->
+	                <p:commandButton 	value="Aceptar" 
+	                					icon="ui-icon-check" 
+	                					update="panel" 
+	                					action="#{usuarioMB.validar()}"
+	                					oncomplete="#{usuarioMB.btnAceptar()}"
+	                />		                					 
+	                 
+	                <p:commandButton 	value="Cancelar" 
+	                					icon="ui-icon-close" 
+	                					inmediate="true" 
+	                					onclick="PF('usuarioDialog').hide();"
+	                />			 
+	            </h:panelGrid>
+	   		</p:dialog>
+   		</h:form>
+	     
+	
+	</ui:define>	
+	
+</ui:composition>

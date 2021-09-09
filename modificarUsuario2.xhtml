@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<ui:composition template="/layout/layout.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+	 
+	<style type="text/css">
+	    .value {
+	        font-weight: bold;
+	    }
+	     
+	    .ui-datatable {
+	        margin-bottom: 25px
+	    }
+	     
+	    .ui-datatable .ui-datatable-footer {
+	        text-align:left;
+	    }
+	     
+	    .ui-datalist ul {
+	        padding: 0 0 0 10px;
+	        margin: 5px 0;
+	    }
+	     
+	    .ui-datatable .ui-button-icon-only .ui-button-text {
+	        padding: 0;
+	        line-height: 1.2;
+	    }
+	</style>
+ 
+ 
+	<ui:define name="title">
+		<c:set var="title" value="Modificar usuario" scope="request" />		
+	</ui:define>
+
+	<ui:define name="content">
+	 	 
+		<br/>
+		<h:messages id="messages" showDetail="true" globalOnly="true" closable="true" style="color: blue" />
+		<br/>
+	
+		<h:form id="idModUsuario">		
+			<p:commandButton value="Cargar todos" action="#{usuarioMB.actualizarListaUsuarios()}" update=":frmPpal"/>
+		</h:form>
+		 
+	  	<p:separator style="width:auto; height:3px; background-color:blue; border-color:blue"/>
+		<br></br>
+		 
+		 
+		<h:form id="frmPpal">
+		    <!-- <p:growl id="msgFrmPpal" showDetail="true" skipDetailIfEqualsSummary="true" globalOnly="true" closable="true" style="color: blue" /> -->
+		    <p:growl id="msgFrmPpal" showDetail="true" showSummary="false"/>
+		    
+		    <p:dataTable id="tabla" var="fila" value="#{usuarioMB.listaUsuarios}" emptyMessage="Sin registros" editable="true">
+		    	
+		    	<p:ajax event="rowEdit" listener="#{usuarioMB.actualizar}" update=":frmPpal:msgFrmPpal"/>
+		    	<p:ajax event="rowEditCancel" listener="#{usuarioMB.cancelar}" update=":frmPpal:msgFrmPpal"/>
+		    
+		        <f:facet name="header">
+		           <h:outputLabel value="#{usuarioMB.listaUsuarios.size()}" /> USUARIOS ENCONTRADOS
+		        </f:facet>
+		    
+		        <p:column headerText="Nombre" filterBy="#{fila.nombre}" filterMatchMode="contains">		        	
+		        	<p:cellEditor>
+		        		<f:facet name="output">
+		        			<h:outputText for="txtNom" value="#{usuarioMB.usuarioDTO.nombre}" />
+		        			<p:inputMask id="txtNom" slotchar="" required="true" value="#{fila.nombre}"/>
+		        		</f:facet>
+		        		<f:facet name="input">
+		        			<p:inputText value="#{usuarioMB.usuarioDTO.nombre}"/>		        			
+		        		</f:facet>
+		        	</p:cellEditor>
+		        </p:column>
+		        
+		        <p:column headerText="Apellido">
+	            	<p:cellEditor>
+		        		<f:facet name="output">
+		        			<h:outputText value="#{fila.apellido}" />
+		        		</f:facet>
+		        		<f:facet name="input">
+		        			<p:inputText value="#{usuarioMB.usuarioDTO.apellido}"/>
+		        		</f:facet>
+		        	</p:cellEditor>
+		        </p:column>
+		        
+		        <p:column headerText="e-mail">
+		        	<p:cellEditor>
+		        		<f:facet name="output">
+		        			<h:outputText value="#{fila.email}" />
+		        		</f:facet>
+		        		<f:facet name="input">
+		        			<p:inputText value="#{usuarioMB.usuarioDTO.email}"/>
+		        		</f:facet>
+		        	</p:cellEditor>    
+		        </p:column>
+		        
+		        <p:column headerText="Usuario">
+		        	<p:cellEditor>
+		        		<f:facet name="output">
+		        			<h:outputText value="#{fila.nombreUsuario}" />
+		        		</f:facet>
+		        		<f:facet name="input">
+		        			<p:inputText value="#{usuarioMB.usuarioDTO.nombreUsuario}"/>
+		        		</f:facet>
+		        	</p:cellEditor>    
+		        </p:column>
+		        
+		        <p:column headerText="Contraseña">
+					<p:cellEditor>
+		        		<f:facet name="output">
+		        			<h:outputText value="#{fila.contrasena}" />
+		        		</f:facet>
+		        		<f:facet name="input">
+		        			<p:inputText value="#{usuarioMB.usuarioDTO.contrasena}"/>
+		        		</f:facet>
+		        	</p:cellEditor>            
+		        </p:column>
+		        
+		        <p:column>		             
+		        	<p:rowEditor/>              
+		   		</p:column>
+		   		
+		     </p:dataTable>		     
+	    </h:form>
+	
+	</ui:define>	
+	
+</ui:composition>

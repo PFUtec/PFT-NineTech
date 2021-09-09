@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"> 
+
+<head>
+    <style>
+        .estiloFrm {
+            width: 50%;
+            margin: 0 auto;
+            background: lightblue;
+            border: none;
+            text-align: center;                        
+        }
+        .fondoMsgs {
+        	background-color: blue;
+        	color: white;        	        	
+        }
+        
+    </style>
+</head>
+ 
+<body> 
+ 	<h2 style="text-align:center;">Sistema de recolección de datos de campo - iAgroUY</h2>
+ 			
+	<h:form onsubmit="document.body.style.cursor='wait'">		 
+		<h:panelGrid id="panel1" columns="1" styleClass="estiloFrm">
+			<h4 style="text-align: center; background: #C7FF33">Acceso de usuarios</h4>
+			<h:messages id="messages" showDetail="true" globalOnly="true" styleClass="fondoMsgs" />
+									
+			<h:outputLabel value="Usuario" />
+	 		<h:inputText id="tbUsuario" value="#{loginMB.loginDTO.user}" required="true" requiredMessage="Requerido"/>
+			<h:message for="tbUsuario" style="color:red"/>
+			
+			<h:outputLabel value="Contraseña" />
+			<h:inputSecret id="tbContrasena" value="#{loginMB.loginDTO.pass}" required="true" requiredMessage="Requerido"/>
+			<h:message for="tbContrasena" style="color:red"/>
+			
+			<br />
+			<h:commandButton action="#{loginMB.login()}" value="Iniciar sesión" />	
+			<br />		
+		</h:panelGrid>
+	</h:form>
+
+</body> 
+</html>

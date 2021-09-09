@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<ui:composition template="/layout/layout.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<f:metadata>
+		<f:viewAction action="#{usuarioMB.onPageLoad_BajaUsuario()}" />
+	</f:metadata>	 
+	
+	<style type="text/css">
+	    .value {
+	        font-weight: bold;
+	    }
+	     
+	    .ui-datatable {
+	        margin-bottom: 25px
+	    }
+	     
+	    .ui-datatable .ui-datatable-footer {
+	        text-align:left;
+	    }
+	     
+	    .ui-datalist ul {
+	        padding: 0 0 0 10px;
+	        margin: 5px 0;
+	    }
+	     
+	    .ui-datatable .ui-button-icon-only .ui-button-text {
+	        padding: 0;
+	        line-height: 1.2;
+	    }
+	</style>
+ 
+ 
+	<ui:define name="title">
+		<c:set var="title" value="Baja de usuarios" scope="request" />		
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="frmNombre" onsubmit="document.body.style.cursor='wait'">
+			<p:panelGrid columns="1" style="margin: 0 auto;">
+				<p:messages id="msgPpal" for="msgPpal" showDetail="true" globalOnly="true" closable="true" />							
+				<p:outputLabel value="Nombre" />
+				<p:inputText id="nombre" value="#{usuarioMB.usuarioDTO.criterioNombre}"/>						 
+				<p:message for="nombre" style="color:red"/>
+				<p:commandButton value="Buscar usuario" action="#{usuarioMB.actualizarListaUsuarios()}" update="frmNombre frmBaja" />
+			</p:panelGrid>					
+		</h:form>
+		<br></br>		 
+	  	<p:separator style="width:auto; height:3px; background-color:blue; border-color:blue"/>
+		<br></br>
+		 		 
+		<h:form id="frmBaja">		    
+		    <p:growl id="msgPpal" showDetail="true" />
+		    
+		   	<p:dataTable	id="tabla" 
+		    				var="fila" 
+		    				value="#{usuarioMB.listaUsuarios}" 
+		    				emptyMessage="Sin registros"
+		    				onRowEditUpdate="msgPpal"		    				
+		    				selection="#{usuarioMB.usuarioSeleccionado}"  
+		    				rowKey="#{fila.id}"
+		    				selectionMode="single"
+		    				>
+                			
+		        <f:facet name="header">
+		           <h:outputLabel value="#{usuarioMB.listaUsuarios.size()} USUARIOS ENCONTRADOS" />
+		        </f:facet>
+		    	
+		    	<!-- ID de usuario oculto -->
+				<p:column id="id" headerText="id" visible="false">		        	
+		        	<h:outputText for="txtNom" value="#{fila.id}" />
+		        </p:column>
+		    	
+		        <p:column headerText="Nombre">		        	
+		        	<h:outputText for="txtNom" value="#{fila.nombre}" />
+		        </p:column>
+		        
+		        <p:column headerText="Apellido">		        	
+		        	<h:outputText for="txtApe" value="#{fila.apellido}" />
+		        </p:column>
+		        
+		        <p:column headerText="Rol">		        		        	
+		        	<h:outputText for="rol" value="#{fila.nombreRol}" />
+		        </p:column>
+		        
+		        <p:column headerText="e-mail">		        	
+		        	<h:outputText for="txtEmail" value="#{fila.email}" />
+		        </p:column>
+		        		        
+		        <p:column headerText="Usuario">		        	
+		        	<h:outputText for="txtNomUsu" value="#{fila.nombreUsuario}" />
+		        </p:column>
+		        
+		        <f:facet name="footer">
+		           <p:commandButton value="Borrar usuario" action="#{usuarioMB.borrarUsuarioSeleccionado()}" update="frmBaja" />
+		        </f:facet>
+		        
+		     </p:dataTable>
+						     
+	    </h:form>
+	
+	</ui:define>	
+	
+</ui:composition>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<ui:composition
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:c="http://java.sun.com/jsp/jstl/core" 
+    xmlns:p="http://primefaces.org/ui" >
+    
+    <h:form>
+         <p:menubar > 
+         	<p:menuitem value="Home" icon="ui-icon-home" url="home.xhtml" disabled="false"/>
+         	
+         	<p:submenu label="Gestión de Usuarios">         		
+         		<p:menuitem value="Alta usuario" icon="ui-icon-document" url="altaUsuario.xhtml" disabled="#{loginMB.disabled(1)}"/>	            
+	        	<p:menuitem value="Baja usuario" icon="ui-icon-close" url="bajaUsuario.xhtml" disabled="#{loginMB.disabled(2)}" />
+	        	<p:menuitem value="Modificar usuario" icon="ui-icon-gear" url="modificarUsuario.xhtml" disabled="#{loginMB.disabled(3)}"/>	            
+	        	<p:menuitem value="Listado de usuarios" icon="ui-icon-search" url="listarUsuarios.xhtml" disabled="#{loginMB.disabled(4)}"/>
+	        </p:submenu>
+	        <p:submenu label="Gestión de Formularios">
+	        	<p:menuitem value="Crear casillas" icon="ui-icon-document" url="." disable="#{loginMB.disabled(5)}"/>
+	        	<p:menuitem value="Crear Formularios" icon="ui-icon-document" url="." disable="#{loginMB.disabled(6)}"/>
+	        	<p:menuitem value="Cargar Actividad de Campo" icon="ui-icon ui-icon-arrow-1-e" url="." disable="#{loginMB.disabled(7)}"/>	        	
+	        </p:submenu>
+	        		        
+	        <f:facet name="options">	            
+	        	<p:outputLabel value="Bienvenid@ #{publicas.uConectadoDTO.nombre} #{publicas.uConectadoDTO.apellido}"/>
+	        	<p:outputLabel value=" (#{publicas.uConectadoDTO.nombreRol.toUpperCase()})&#160;"/>
+	        	<p:commandButton value="Cerrar sesión" action="#{loginMB.logout()}" icon="ui-icon-home" ajax="false" />
+	        </f:facet>
+   		</p:menubar>
+   	
+	    <p:growl id="messages"/>     
+	</h:form>
+            
+</ui:composition>

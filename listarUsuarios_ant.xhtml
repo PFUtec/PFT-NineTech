@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"> 
+
+<h:head>
+
+<style>
+	.usuarioTable {   
+   		border-collapse:collapse;
+   		border:1px solid #000000;
+	}
+	.usuarioTableHeader {
+	   text-align:center;
+	   background:none repeat scroll 0 0 #B5B5B5;
+	   border-bottom:1px solid #000000;  
+	   padding:5px;
+	}
+</style>
+
+</h:head> 
+<body> 
+	<h2>Filtar por nombre de usuario</h2>
+	<h:messages id="messages" showDetail="true" globalOnly="true" closable="true" style="color: blue"/>
+
+	<h:form id="idListaUsuarios" onsubmit="document.body.style.cursor='wait'">		
+		<h:panelGrid columns="1">			
+			<h:outputLabel value="Nombre" />
+			<h:inputText id="nombre" value="#{usuarioMB.usuarioDTO.criterioNombre}"/>						 
+			<h:message for="nombre" style="color:red"/>
+		</h:panelGrid>
+		<h:commandButton value="Listar" action="#{usuarioMB.actualizarListaUsuarios()}" />		
+	</h:form>
+	
+	
+	<h3>Usuarios encontrados</h3>
+	<h:dataTable value="#{usuarioMB.usuarioDTO.listaUsuarios}"
+		var="usuario_dto"
+		styleClass = "usuarioTable"
+   		headerClass = "usuarioTableHeader">
+   
+		<h:column>
+			<f:facet name="header">Nombre</f:facet>    				
+      		#{usuario_dto.nombre}
+   		</h:column>
+
+		<h:column>
+			<f:facet name="header">Apellido</f:facet>
+		      #{usuario_dto.apellido}
+		</h:column>
+
+		<h:column>
+			<f:facet name="header">e-mail</f:facet>
+      		#{usuario_dto.email}
+   		</h:column>
+
+		<h:column>
+			<f:facet name="header">Rol</f:facet>
+      		#{usuario_dto.getNombreRol()}
+		</h:column>
+	</h:dataTable>
+
+</body> 
+</html>
